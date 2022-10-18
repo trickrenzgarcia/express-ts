@@ -3,6 +3,7 @@ import { UserReqBody, UserResBody, UserParams, UserReqQuery } from './models/bod
 import helmet from 'helmet'
 import cors from 'cors'
 import * as MySQLConnector from './utils/mysql.connector'
+import { hash, compare } from 'bcrypt'
 
 //Services
 import * as UserService from './service/users.service'
@@ -61,6 +62,21 @@ app.get('/user/:id', async (req: Request, res: Response) => {
   }
 })
 
+
+app.post('/api/login', async (req: Request<{}, {}, UserReqBody, {}>, res: Response) => {
+  const { email, password } = req.body
+  try {
+    const userPass = await UserService.GetUserPasswordByEmail(email)
+    // @ts-ignore
+    compare(password, userPass[0].password, (err, result) => {
+      if(result) res.send("Successfully Logged In!")
+      else res.send("Wrong email or password")
+    })
+  } catch (error) {
+
+  }
+
+})
 
 app.post('/api/signup', (req: Request<UserParams, UserResBody, UserReqBody, UserReqQuery>, res: Response) => {
   const { email, username, password } = req.body

@@ -9,3 +9,7 @@ export const getUsers = async () => {
 export const getUserById = async (id: IUsers['uid']) => {
   return execute<IUsers>(UserQueries.GetUserById, [id])
 }
+
+export const GetUserPasswordByEmail = async (email: IUsers['email']) => {
+  return execute<IUsers>(UserQueries.GetUserPasswordByEmail, [email])
+}
