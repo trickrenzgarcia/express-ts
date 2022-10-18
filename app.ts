@@ -7,6 +7,7 @@ import { hash, compare } from 'bcrypt'
 
 //Services
 import * as UserService from './service/users.service'
+import { IUsers } from './models/users/users.model'
 
 const app: Application = express()
 
@@ -68,10 +69,16 @@ app.post('/api/login', async (req: Request<{}, {}, UserReqBody, {}>, res: Respon
   try {
     const userPass = await UserService.GetUserPasswordByEmail(email)
     // @ts-ignore
-    compare(password, userPass[0].password, (err, result) => {
-      if(result) res.send("Successfully Logged In!")
-      else res.send("Wrong email or password")
-    })
+    if(userPass > 0){
+      // @ts-ignore
+      compare(password, userPass[0].password, (err, result) => {
+        if(result) res.send("Successfully Logged In!")
+        else res.send("Wrong email or password")
+      })
+    }
+    else {
+      res.send("Wrong email or password!")
+    }
   } catch (error) {
 
   }
