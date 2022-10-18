@@ -5,3 +5,7 @@ import { IUsers } from "../models/users/users.model";
 export const getUsers = async () => {
   return execute<IUsers>(UserQueries.GetUsers, {})
 }
+
+export const getUserById = async (id: IUsers['uid']) => {
+  return execute<IUsers>(UserQueries.GetUserById, [id])
+}

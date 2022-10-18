@@ -49,6 +49,17 @@ app.get('/users', async (req: Request, res: Response) => {
   }
 })
 
+app.get('/user/:id', async (req: Request, res: Response) => {
+  try {
+    const uid = req.params.id
+    const user = await UserService.getUserById(uid)
+    res.status(200).json(user)
+  } catch (error) {
+    res.status(500).json({
+      message: 'There was an error when fetching users'
+    })
+  }
+})
 
 
 app.post('/api/signup', (req: Request<UserParams, UserResBody, UserReqBody, UserReqQuery>, res: Response) => {
