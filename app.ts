@@ -5,12 +5,13 @@ import cors from 'cors'
 import * as MySQLConnector from './utils/mysql.connector'
 import { hash, compare } from 'bcrypt'
 
-//Services
+// Services
 import * as UserService from './service/users.service'
 import { IUsers } from './models/users/users.model'
 
 const app: Application = express()
 
+// express host and port
 const SERVER: string = 'localhost'
 const PORT: number = 5000
 
