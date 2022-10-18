@@ -11,5 +11,5 @@ export const getUserById = async (id: IUsers['uid']) => {
 }
 
 export const GetUserPasswordByEmail = async (email: IUsers['email']) => {
-  return execute<IUsers['email']>(UserQueries.GetUserPasswordByEmail, [email])
+  return execute<IUsers>(UserQueries.GetUserPasswordByEmail, [email])
 }

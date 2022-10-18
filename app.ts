@@ -68,17 +68,13 @@ app.post('/api/login', async (req: Request<{}, {}, UserReqBody, {}>, res: Respon
   const { email, password } = req.body
   try {
     const userPass = await UserService.GetUserPasswordByEmail(email)
+    
     // @ts-ignore
-    if(userPass > 0){
-      // @ts-ignore
-      compare(password, userPass[0].password, (err, result) => {
-        if(result) res.send("Successfully Logged In!")
-        else res.send("Wrong email or password")
-      })
-    }
-    else {
-      res.send("Wrong email or password!")
-    }
+    compare(password, userPass[0].password, (err, result) => {
+      if(result) res.send("Successfully Logged In!")
+      else res.send("Wrong email or password")
+    })
+    
   } catch (error) {
 
   }
