@@ -6,8 +6,7 @@ import * as MySQLConnector from './utils/mysql.connector'
 import { hash, compare } from 'bcrypt'
 
 //routes
-import { login } from './routes/loginRoutes'
-
+import { apiRoutes } from './routes/api'
 
 // Services
 import * as UserService from './service/users.service'
@@ -35,7 +34,7 @@ app.use(cors())
 // create database pool
 MySQLConnector.init()
 
-app.use(login)
+app.use(apiRoutes)
 
 app.get('/users', async (req: Request, res: Response) => {
   try {
@@ -60,14 +59,6 @@ app.get('/user/:id', async (req: Request, res: Response) => {
       message: 'There was an error when fetching users'
     })
   }
-})
-
-
-app.post('/api/signup', (req: Request<UserParams, UserResBody, UserReqBody, UserReqQuery>, res: Response) => {
-  const { email, username, password } = req.body
-  res.json({
-    username: username
-  })
 })
 
 app.listen(PORT, SERVER, () => {

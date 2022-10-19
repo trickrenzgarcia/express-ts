@@ -14,4 +14,13 @@ const getUserPasswordByEmail = async (email: IUsers['email']) => {
   return execute<IUsers>(UserQueries.GetUserPasswordByEmail, [email])
 }
 
-export { getUsers, getUserById, getUserPasswordByEmail }
+const addUser = async (uid: IUsers['uid'], username: IUsers['username'], email: IUsers['email'], password: IUsers['password']) => {
+  return execute<IUsers>(UserQueries.AddUser, [uid, username, email, password])
+}
+
+export { 
+  getUsers, 
+  getUserById,
+  getUserPasswordByEmail,
+  addUser
+}

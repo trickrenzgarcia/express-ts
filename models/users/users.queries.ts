@@ -9,7 +9,7 @@ export const UserQueries = {
   SELECT password FROM users WHERE email = ?
   `,
   AddUser: `
-  INSERT INTO users (username, email, password) VALUES (?, ?, ?);
+  INSERT INTO users (uid, username, email, password) VALUES (?, ?, ?, ?);
   `,
   UpdateUserById: `
   UPDATE users SET username = ?, email = ?, password = ? WHERE uid = ?
