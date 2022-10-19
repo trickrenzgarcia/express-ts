@@ -3,6 +3,7 @@ import { hash, compare } from "bcrypt"
 import * as UserService from "../../service/users.service"
 import { UserReqBody } from "../../models/body"
 import { v4 } from "uuid"
+import { verify } from 'hcaptcha'
 
 const app = Router()
 
@@ -34,6 +35,44 @@ app.post('/api/signup', async (req: Request<{}, {}, UserReqBody, {}>, res: Respo
     
   } catch (error) {
     res.json({ message: error })
+  }
+})
+
+app.post('/api/captcha', async (req: Request, res: Response) => {
+  if(!req.body.captcha){
+    return res.status(400).json({ message: 'Captcha token is missing!' })
+  }
+  
+  try {
+    const response = await fetch(`https://hcaptcha.com/siteverify`, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      },
+      body: `response=${req.body.captcha}&secret=0x3Ad959C49817E0dd14cBeE40045791d3ec76f0Af`,
+      method: 'POST'
+    })
+
+    const captchaValidation = await response.json()
+
+    if(captchaValidation.success) {
+      console.log("OKKK")
+      return res.status(200).send('OK')
+    }
+
+    return res.status(422).json({
+      message: 'Unproccesable request, Invalid captcha!'
+    })
+
+  } catch (error) {
+    return res.status(422).json({ message: error })
+  }
+})
+.all('/api/captcha', (req: Request, res: Response) => {
+  if(req.method !== 'POST'){
+    res.status(405).json({
+      message: `Method [${req.method}] not allowed.`,
+      statusCode: 405
+    })
   }
 })
 

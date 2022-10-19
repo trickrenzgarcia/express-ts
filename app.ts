@@ -3,14 +3,12 @@ import { UserReqBody, UserResBody, UserParams, UserReqQuery } from './models/bod
 import helmet from 'helmet'
 import cors from 'cors'
 import * as MySQLConnector from './utils/mysql.connector'
-import { hash, compare } from 'bcrypt'
 
 //routes
 import { apiRoutes } from './routes/api'
 
 // Services
 import * as UserService from './service/users.service'
-import { IUsers } from './models/users/users.model'
 
 const app: Application = express()
 
