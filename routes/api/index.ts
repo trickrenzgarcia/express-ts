@@ -44,27 +44,18 @@ app.post('/api/captcha', async (req: Request, res: Response) => {
   }
   
   try {
-    const response = await fetch(`https://hcaptcha.com/siteverify`, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-      },
-      body: `response=${req.body.captcha}&secret=0x3Ad959C49817E0dd14cBeE40045791d3ec76f0Af`,
-      method: 'POST'
+    const SECRET = '0x3Ad959C49817E0dd14cBeE40045791d3ec76f0Af'
+    const TOKEN = req.body.captcha
+    console.log(TOKEN)
+    verify(SECRET, TOKEN).then((data) => {
+      if(data.success === true) {
+        return res.send('OK')
+      } else {
+        return res.status(422).json({ message: 'verification failed!'})
+      }
     })
-
-    const captchaValidation = await response.json()
-
-    if(captchaValidation.success) {
-      console.log("OKKK")
-      return res.status(200).send('OK')
-    }
-
-    return res.status(422).json({
-      message: 'Unproccesable request, Invalid captcha!'
-    })
-
   } catch (error) {
-    return res.status(422).json({ message: error })
+    return res.status(422).json({error})
   }
 })
 .all('/api/captcha', (req: Request, res: Response) => {
